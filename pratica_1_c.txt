@@ -1,0 +1,273 @@
+// Questão 1 - Receba três notas, calcule e apresente a média aritmética delas.
+#include <stdio.h>
+int main()
+{
+    double nota1;
+    double nota2;
+    double nota3;
+    double media;
+    
+    printf("Digite a primeira nota:\n");
+    scanf("%lf", &nota1);
+    
+    printf("Digite a segunda nota:\n");
+    scanf("%lf", &nota2);
+    
+    printf("Digite a terceira nota:\n");
+    scanf("%lf", &nota3);
+    
+    media = (nota1 + nota2 + nota3) / 3;
+    printf("Média aritmética = %lf", media);
+    return 0;
+}
+
+// Questão 2 - Receba o ano de nascimento de uma pessoa, o ano atual e imprima: a)A idade da pessoa no ano atual. b)A idade que a pessoa terá em 2050.
+#include <stdio.h>
+int main()
+{
+    int anoAtual;
+    int anoNascimento;
+    int idadeAtual;
+    int idade2050;
+    
+    printf("Informe o ano atual:\n");
+    scanf("%d", &anoAtual);
+    
+    printf("Informe o ano de seu nascimento:\n");
+    scanf("%d", &anoNascimento);
+    
+    idadeAtual = anoAtual - anoNascimento;
+    idade2050 = 2050 - anoNascimento;
+    
+    printf("Idade atual: %d", idadeAtual);
+    printf("\nIdade em 2050: %d", idade2050);
+    return 0;
+}
+
+// Questão 3 - Receba a cotação do dólar em reais e um valor que o usuário possui em dólares. Imprima este valor em reais.
+#include <stdio.h>
+int main()
+{
+    double cotacao;
+    double dolares;
+    double reais; 
+    
+    printf("Qual é a cotação do dólar em reais?\n");
+    scanf("%lf", &cotacao);
+    
+    printf("Quanto você tem em dólar?\n");
+    scanf("%lf", &dolares);
+    
+    reais = dolares * cotacao;
+    
+    printf("Valor em reais: R$ %0.2lf", reais);
+    return 0;
+}
+
+// Questão 4 - Faça um programa que receba o salário de um funcionário, calcule e mostre o novo
+salário, sabendo-se que ele teve um aumento de 25%.
+#include <stdio.h>
+int main()
+{
+    double salario;
+    double aumento;
+    double novoSalario; 
+    
+    printf("Informe seu salário?\n");
+    scanf("%lf", &salario);
+    
+    aumento = salario * 0.25;
+    novoSalario = salario + aumento;
+    
+    printf("O novo salário é de R$ %0.2lf", novoSalario);
+    return 0;
+}
+
+// Questão 5 - Calcule e apresente a área de um losango. As diagonais maior e menor do losango
+devem ser informadas pelo usuário. OBS: AREA = (DIAGONAL MAIOR * DIAGONAL MENOR) / 2. 
+#include <stdio.h>
+int main()
+{
+    double diagonalMaior;
+    double diagonalMenor;
+    double area; 
+    
+    printf("Informe o tamanho da diagonal maior do losango:\n");
+    scanf("%lf", &diagonalMaior);
+    
+    printf("Informe o tamanho da diagonal menor do losango:\n");
+    scanf("%lf", &diagonalMenor);
+    
+    area = (diagonalMaior * diagonalMenor) / 2;
+    
+    printf("A área do losango é %0.2lf", area);
+    return 0;
+}
+
+// Questão 6 - Receba uma temperatura em Celsius, calcule e mostre essa temperatura em Fahrenheit.
+OBS: F = (C * 1,8) + 32.
+#include <stdio.h>
+int main()
+{
+    double celsius;
+    double fahrenheit;
+    
+    printf("Informe a temperatura em graus Celsius:\n");
+    scanf("%lf", &celsius);
+    
+    fahrenheit = (celsius * 1.8) + 32;
+    
+    printf("A temperatura em Fahrenheit é %0.2lf°", fahrenheit);
+    return 0;
+}
+
+// Questão 7 - Receba o valor do salário mínimo e o valor do salário de um funcionário. O algoritmo
+deve calcular e apresentar a quantidade de salários mínimos que esse funcionário
+recebe.
+#include <stdio.h>
+int main()
+{
+    double salarioMinimo;
+    double salario;
+    int quantidade;
+    
+    printf("Informe o valor do salário mínimo:\n");
+    scanf("%lf", &salarioMinimo);
+    
+    printf("Informe o seu salário:\n");
+    scanf("%lf", &salario);
+    
+    quantidade = salario / salarioMinimo;
+    
+    printf("Quantidade de salários mínimos: %d", quantidade);
+    return 0;
+}
+
+// Questão 8 - Receba o peso de uma pessoa, calcule e apresente o novo peso: 
+// a) Se a pessoa engordar 15%. 
+#include <stdio.h>
+int main()
+{
+    double peso;
+    double pesoGanho;
+    double novoPeso;
+    
+    printf("Informe seu peso:\n");
+    scanf("%lf", &peso);
+    
+    pesoGanho = peso * 0.2;
+    novoPeso = peso + pesoGanho;
+    
+    printf("Seu novo peso é: %0.2lf", novoPeso);
+    return 0;
+}
+// b)Se a pessoa emagrecer 20%.
+#include <stdio.h>
+int main()
+{
+    double peso;
+    double emagrecimento;
+    double novoPeso;
+    
+    printf("Informe seu peso:\n");
+    scanf("%lf", &peso);
+    
+    emagrecimento = peso * 0.2;
+    novoPeso = peso - emagrecimento;
+    
+    printf("Seu novo peso é: %0.2lf", novoPeso);
+    return 0;
+}
+
+// Questão 9 - Receba os valores dos dois catetos de um triângulo, calcule e apresente o valor da
+hipotenusa. OBS - Teorema de Pitágoras: a^2 = b^2 + c^2.
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+    double catetoOposto;
+    double catetoAdjacente;
+    double hipotenusa;
+    
+    printf("Informe o valor do cateto oposto do triângulo:\n");
+    scanf("%lf", &catetoOposto);
+    
+    printf("Informe o valor do cateto adjacente do triângulo:\n");
+    scanf("%lf", &catetoAdjacente);
+    
+    hipotenusa = sqrt(pow(catetoOposto, 2) + pow(catetoAdjacente, 2));
+    
+    printf("A hipotenusa é: %0.2lf", hipotenusa);
+    return 0;
+}
+
+// Questão 10 - Receba o raio, calcule e apresente:
+// a) O comprimento de uma esfera: C = 2 * π * R.
+#include <stdio.h>
+int main()
+{
+    double r;
+    double comprimento;
+    
+    printf("Informe o raio da esfera:\n");
+    scanf("%lf", &r);
+    
+    comprimento = 2 * 3.14 * r;
+    
+    printf("O comprimento da esfera é: %0.2lf", comprimento);
+    return 0;
+}
+// b) A área de uma esfera: A = π * R^2.
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+    double r;
+    double area;
+    
+    printf("Informe o raio da esfera:\n");
+    scanf("%lf", &r);
+    
+    area = 3.14 * pow(r, 2);
+    
+    printf("A área da esfera é: %0.2lf", area);
+    return 0;
+}
+// c) O volume de uma esfera: V = 3⁄4 * π * R^3. 
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+    double r;
+    double volume;
+    
+    printf("Informe o raio da esfera:\n");
+    scanf("%lf", &r);
+    
+    volume = 0.75 * 3.14 * pow(r, 3);
+    
+    printf("O volume da esfera é: %0.2lf", volume);
+    return 0;
+}
+
+// Questão 11 - Calcule e mostre a tabuada de multiplicação de um número informado pelo usuário no teclado.
+#include <stdio.h>
+int main()
+{
+    int numero;
+    int multiplicacao;
+    int i = 0;
+    
+    printf("Informe um número:\n");
+    scanf("%d", &numero);
+    
+    while(i <= 10){
+        multiplicacao = numero * i;
+        printf("%d x %d = %d\n", numero, i, multiplicacao);
+        i++;
+    }
+    
+    return 0;
+}    
+
+

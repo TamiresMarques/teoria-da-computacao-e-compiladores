@@ -1,0 +1,45 @@
+// Questão 1 - Escreva um algoritmo que possua uma função recursiva para cálculo de potência. O usuário deve informar a base e o expoente a partir do teclado. A base e o expoente devem ser números inteiros. Não utilize a biblioteca math.h ou qualquer outro recurso pronto.
+
+#include <stdio.h>
+
+int calculaPotencia(int base, int expoente) {
+    if (expoente == 0) {
+        return 1;
+    } else {
+        return base * calculaPotencia(base, expoente - 1);
+    }
+}
+
+int main()
+{
+    int base, expoente;
+    
+    printf("Informe a base da potência: ");
+    scanf("%d", &base);
+    printf("Informe o expoente da potência: ");
+    scanf("%d", &expoente);
+    
+    int resultado = calculaPotencia(base, expoente);
+    printf("O resultado de %d elevado a %d é igual a %d", base, expoente, resultado);
+    return 0;
+}
+
+// Questão 2 - Crie uma função recursiva chamada somaNaturais que calcule a soma dos primeiros n números naturais. O usuário deve fornecer o valor de n. Exemplo: se o usuário fornecer o valor n = 5, a função deve calcular e retornar a soma dos números de 1 a 5 (ou seja: 1 + 2 + 3 + 4 + 5 = 15).
+
+#include <stdio.h>
+
+int somaNaturais(int n) {
+    if (n == 1) {
+        return n;
+    } else {
+           return n + somaNaturais(n-1);
+    }
+}
+
+int main()
+{
+    int n = 5;
+    int resultado = somaNaturais(5);
+    printf("A soma dos números naturais até o %d é %d\n", n, resultado);
+    return 0;
+}

@@ -1,0 +1,123 @@
+/* Função isalpha */
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+int main () {
+    char nome[15];
+
+    printf("Digite seu primeiro nome: ");
+    scanf("%s", nome);
+
+    int count = 0;
+    int i = 0;
+    for(i = 0; nome[i] != '\0'; i++) {
+        if (!isalpha(nome[i])) {
+            printf("Não é um nome válido.");
+            count++;
+            break;
+        }
+    }
+
+    if (count == 0) {
+        printf("O nome é válido.");
+    }
+    return 0;
+}
+
+/* Função isdigit */
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+int main () {
+    char ano[4];
+
+    printf("Digite seu ano de nascimento: ");
+    scanf("%s", ano);
+
+    int count = 0;
+    int i = 0;
+    
+    while(ano[i]) {
+        if (!isdigit(ano[i])) {
+            printf("Não é um ano válido.");
+            count++;
+            break;
+        }
+        i++;
+    }
+
+    if (count == 0) {
+        printf("O ano é válido.");
+    }
+    return 0;
+}
+
+
+/* Função isupper */
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+int main () {
+    char letra;
+
+    printf("Digite uma letra: ");
+    scanf("%c", &letra);
+    
+    if (isupper(letra)) {
+        printf("É  uma letra maiúscula.");
+    } else {
+        printf("Não é uma letra maiúscula.");
+    }
+    
+    return 0;
+}
+
+/* Função islower */
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+int main () {
+    char letra;
+
+    printf("Digite uma letra: ");
+    scanf("%c", &letra);
+    
+    if (islower(letra)) {
+        printf("É  uma letra minúscula.");
+    } else {
+        printf("Não é uma letra minúscula.");
+    }
+    
+    return 0;
+}
+
+/* Função isalnum */
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+int main () {
+    char codigo[10];
+
+    printf("Digite o código de rastreamento do seu pacote: ");
+    scanf("%s", codigo);
+    
+    int count = 0;
+    int i = 0;
+    for(i = 0; codigo[i] != '\0'; i++) {
+        if (!isalnum(codigo[i])) {
+            printf("Não é um código de rastreio válido.");
+            count++;
+            break;
+        }
+    }
+
+    if (count == 0) {
+        printf("É um código de rastreio válido.");
+    }
+    return 0;
+}

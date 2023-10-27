@@ -1,0 +1,367 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void armazenarSequencia(int tamanho1, int tamanho2, int *seq1, int *seq2);
+void leSequencia(int tamanho1, int tamanho2);
+int quantidadeRepetidos(int* sequencia, int tamanho);
+int* criaConjunto(int tamanho, int tamanhoConjunto, int* sequencia);
+//void criaConjuntoPartesProprias(int tamanho, int *conjunto);
+int *uniaoConjuntos(int tamanho1, int *conjuntoA, int tamanho2, int *conjuntoB);
+int *intersecaoConjuntos(int *uniao,int tamanho1, int *conjuntoA, int tamanho2, int *conjuntoB);
+void diferencaConjuntos(int tamanhoConjunto, int *conjunto, int tamanhoIntersecao, int *intersecao);
+void produtoCartesiano(int tamanho1, int *conjuntoA, int tamanho2, int *conjuntoB);
+
+int main()
+{
+    int tamanho1, tamanho2;
+
+    printf("Informe a quantidade de elementos da primeira sequência: ");
+    scanf("%d", &tamanho1);
+    printf("Informe a quantidade de elementos da segunda sequência: ");
+    scanf("%d", &tamanho2);
+
+    int seq1[tamanho1], seq2[tamanho2];
+
+    printf("\n");
+    for (int i = 0; i < tamanho1; i++) {
+        printf("Digite o número natural da primeira sequência: ");
+        scanf("%d", &seq1[i]);
+    }
+    printf("\n");
+    for (int i = 0; i < tamanho2; i++) {
+        printf("Digite o número natural da segunda sequência: ");
+        scanf("%d", &seq2[i]);
+    }
+
+	armazenarSequencia(tamanho1,tamanho2,seq1,seq2);
+
+	printf("\n\n");
+	printf("Seqûencias do arquivo. \n");
+	leSequencia(tamanho1,tamanho2);
+
+	int repetidos1 = quantidadeRepetidos(seq1, tamanho1);
+	int repetidos2 = quantidadeRepetidos(seq2, tamanho2);
+
+	int tamanhoA = tamanho1 - repetidos1;
+	int tamanhoB = tamanho2 - repetidos2;
+
+	printf("\nConjunto A: ");
+    int *conjuntoA = criaConjunto(tamanho1, tamanhoA, seq1);
+    printf("\n");
+    printf("Conjunto B: ");
+    int *conjuntoB = criaConjunto(tamanho2, tamanhoB, seq2);
+
+    /*printf("\nConjunto das partes próprias do conjunto A:\n");
+    criaConjuntoPartesProprias(tamanhoA, conjuntoA);
+    printf("\nConjunto das partes próprias do conjunto B:\n");
+    criaConjuntoPartesProprias(tamanhoB, conjuntoB);
+*/
+    printf("\nConjunto união de A e B: ");
+    int *sequenciais = uniaoConjuntos(tamanhoA, conjuntoA, tamanhoB, conjuntoB);
+
+    int *intersecao = intersecaoConjuntos(sequenciais,tamanhoA, conjuntoA, tamanhoB, conjuntoB);
+    int tamanhoIntersecao = sizeof(intersecao)/sizeof(int);
+
+
+    printf("\nDiferença entre o conjunto A e o B: ");
+    diferencaConjuntos(tamanhoA, conjuntoA, tamanhoIntersecao, intersecao);
+
+    printf("\n\nDiferença entre o conjunto B e o A: ");
+    diferencaConjuntos(tamanhoB, conjuntoB, tamanhoIntersecao, intersecao);
+
+    printf("\n");
+
+
+    printf("\n");
+    printf("\nProduto cartesiano entre A e B:\n");
+    produtoCartesiano(tamanhoA, conjuntoA, tamanhoB, conjuntoB);
+    printf("\n\nProduto cartesiano entre B e A:\n");
+    produtoCartesiano(tamanhoB, conjuntoB, tamanhoA, conjuntoA);
+
+    return 0;
+}
+
+void armazenarSequencia(int tamanho1, int tamanho2, int* seq1, int* seq2) {
+    FILE *arq;
+
+    if ((arq = fopen("sequenciaC.txt", "w")) == NULL) {
+        printf("Erro ao abrir o arquivo");
+        system("pause");
+        exit(1);
+    }
+
+    printf("\nPrimeira Sequência: ");
+    for (int i = 0; i < tamanho1; i++) {
+        printf("%d ", seq1[i]);
+        fprintf(arq, "%d ", seq1[i]);
+
+    }
+	printf("\n");
+
+    printf("Segunda Sequência: ");
+    fprintf(arq, "\n");
+    for (int i = 0; i < tamanho2; i++) {
+        printf("%d ", seq2[i]);
+        fprintf(arq, "%d ", seq2[i]);
+    }
+	printf("\n");
+
+    fclose(arq);
+    printf("Sequências armazenadas no arquivo.");
+
+}
+
+void leSequencia(int tamanho1, int tamanho2) {
+    FILE *arq;
+
+    if ((arq = fopen("sequenciaC.txt", "r")) == NULL) {
+            printf("Erro ao abrir o arquivo");
+            system("pause");
+            exit(1);
+    }
+
+    int *sequencia1 = (int *)malloc(tamanho1 * sizeof(int));
+
+    for (int i = 0; i < tamanho1; i++) {
+        fscanf(arq, "%d", &sequencia1[i]);
+    }
+
+    printf("\nPrimeira Sequência lida: ");
+    for (int i = 0; i < tamanho1; i++) {
+        printf("%d ", sequencia1[i]);
+    }
+	printf("\n");
+
+	int *sequencia2 = (int *)malloc(tamanho2 * sizeof(int));
+
+    printf("Segunda Sequência lida: ");
+    for (int i = 0; i < tamanho2; i++) {
+        fscanf(arq, "%d", &sequencia2[i]);
+        printf("%d ", sequencia2[i]);
+    }
+	printf("\n");
+
+    fclose(arq);
+}
+
+int quantidadeRepetidos(int* sequencia, int tamanho) {
+    int contador = 0;
+
+    for (int i = 0; i < tamanho; i++) {
+        for(int j = i + 1; j < tamanho; j++) {
+            if (sequencia[i] == sequencia[j]) {
+                contador++;
+                break;
+            }
+        }
+    }
+
+    return contador;
+}
+
+int *criaConjunto (int tamanho, int tamanhoConjunto,int *sequencia) {
+    int *conjunto = (int *)malloc(tamanhoConjunto * sizeof(int));
+    FILE *arq;
+
+    conjunto[0] = sequencia[0];
+    int i_conjunto = 1;
+    int duplicado = 0;
+
+    for (int i = 1; i<tamanho; i++) {
+        for (int j = 0; j < i_conjunto; j++) {
+            if (sequencia[i] == conjunto[j]) {
+                duplicado = 1;
+                break;
+            }
+        }
+        if (duplicado == 0) {
+            conjunto[i_conjunto++] = sequencia[i];
+        } else {
+            duplicado = 0;
+        }
+
+    }
+
+    for (int i = 0; i < tamanhoConjunto; i++) {
+        printf("%d ", conjunto[i]);
+    }
+
+    if ((arq = fopen("sequenciaC.txt", "a")) == NULL) {
+        printf("Erro ao abrir o arquivo");
+        system("pause");
+        exit(1);
+    }
+
+    fprintf(arq, "\n");
+    for (int i = 0; i < tamanhoConjunto; i++) {
+        fprintf(arq, "%d ", conjunto[i]);
+    }
+
+    printf("\nConjunto gravado no arquivo.");
+    printf("\n");
+    fclose(arq);
+    return conjunto;
+}
+/*void combinacao(int *conjunto, int *data, int start, int end, int index, int r) {
+    if (index == 1) {
+        for (int j = 0; j<r; j++) {
+            printf(" %d ", data[j]);
+            //printf("\n");
+            return;
+        }
+    }
+
+    for (int i = start; i<= end && end-i+1 >= r-index; i++) {
+        data[index] = conjunto[i];
+        combinacao(conjunto, data, i+1, end, index+1, r);
+    }
+}
+void mostraCombibacao(int *conjunto, int n, int r) {
+    int data[r];
+    combinacao(conjunto, data, 0, n-1, 0, r);
+}
+void criaConjuntoPartesProprias(int tamanho, int *conjunto) {
+    for (int r = 1; r <= tamanho-1; r++) {
+        int n = sizeof(conjunto)/sizeof(conjunto[0]);
+        mostraCombibacao(conjunto, n, r);
+    }
+
+}
+*/
+int *uniaoConjuntos(int tamanho1, int *conjuntoA, int tamanho2, int *conjuntoB) {
+    int tamanho = tamanho1 + tamanho2;
+    int *uniao = (int *)malloc(tamanho * sizeof(int));
+
+    for (int i = 0; i < tamanho1; i++) {
+        uniao[i] = conjuntoA[i];
+    }
+
+    int j = 0;
+    for (int i = tamanho1; i < tamanho; i++) {
+        uniao[i] = conjuntoB[j++];
+    }
+
+    int repetidos = quantidadeRepetidos(uniao, tamanho);
+    int tamanhoUniao = tamanho - repetidos;
+
+    printf("\n");
+    criaConjunto(tamanho, tamanhoUniao, uniao);
+    return uniao;
+}
+
+int *intersecaoConjuntos( int *uniao, int tamanho1, int *conjuntoA, int tamanho2, int *conjuntoB) {
+    FILE *arq;
+
+    int tamanho = tamanho1+tamanho2;
+
+    int repetidos = quantidadeRepetidos(uniao,tamanho);
+
+    if (repetidos == 0) {
+        printf("Os conjuntos A e B não tem elementos em comum.");
+        return NULL;
+    }
+    int *conjuntoIntersecao = (int *)malloc(repetidos * sizeof(int));
+
+    int k = 0;
+    if (tamanho1 > tamanho2) {
+        for (int i = 0; i < tamanho1; i++) {
+            for(int j = 0; j < tamanho2; j++) {
+                if (conjuntoA[i] == conjuntoB[j]) {
+                    conjuntoIntersecao[k++] = conjuntoA[i];
+                }
+            }
+        }
+    } else {
+        for (int i = 0; i < tamanho2; i++) {
+            for(int j = 0; j < tamanho1; j++) {
+                if (conjuntoA[i] == conjuntoB[j]) {
+                    conjuntoIntersecao[k++] = conjuntoB[i];
+                }
+            }
+        }
+    }
+
+    printf("\nConjunto interseção: ");
+    for (int i = 0; i < repetidos; i++) {
+        printf("%d ", conjuntoIntersecao[i]);
+    }
+
+    if ((arq = fopen("sequenciaC.txt", "wt")) == NULL) {
+        printf("Erro ao abrir o arquivo");
+        system("pause");
+        exit(1);
+    }
+
+    fprintf(arq, "\n");
+    for (int i = 0; i < repetidos; i++) {
+        fprintf(arq, "%d ", conjuntoIntersecao[i]);
+    }
+    printf("\nConjunto interseção gravado no arquivo.\n");
+    fclose(arq);
+
+    return conjuntoIntersecao;
+}
+
+void diferencaConjuntos(int tamanhoConjunto, int *conjunto, int tamanhoIntersecao, int *intersecao) {
+    if (tamanhoIntersecao == 0) {
+        for (int i = 0; i < tamanhoConjunto; i++) {
+            printf("%d ", conjunto[i]);
+        }
+    } else {
+        int tamanho = tamanhoConjunto - tamanhoIntersecao;
+        int *conjuntoDiferenca = (int *)malloc(tamanho * sizeof(int));
+        FILE *arq;
+
+        for (int i = 0; i < tamanhoConjunto; i++) {
+            int count = 0;
+
+            for (int j = 0; j < tamanhoIntersecao; j++) {
+                if (conjunto[i] == intersecao[j]) count++;
+                if (count == 0) {
+                    for (int k = 0; k < tamanho; k++) {
+                        conjuntoDiferenca[k] = conjunto[i];
+                    }
+                }
+            }
+        }
+
+        if ((arq = fopen("sequenciaC.txt", "wt")) == NULL) {
+            printf("Erro ao abrir o arquivo");
+            system("pause");
+            exit(1);
+        }
+
+        for (int i = 0; i < tamanho; i++) {
+            printf("%d ", conjuntoDiferenca[i]);
+            fprintf(arq, "%d ", conjuntoDiferenca[i]);
+        }
+        printf("\nConjunto da diferença armazenado no arquivo");
+
+        fclose(arq);
+    }
+
+
+}
+
+void produtoCartesiano(int tamanho1, int *conjuntoA, int tamanho2, int *conjuntoB) {
+    FILE *arq;
+    if ((arq = fopen("sequenciaC.txt", "w")) == NULL) {
+        printf("Erro ao abrir o arquivo");
+        system("pause");
+        exit(1);
+    }
+
+    printf("{");
+    fprintf(arq, "\n{");
+    for (int i = 0; i < tamanho1; i++) {
+        for (int j = 0; j < tamanho2; j++) {
+            printf("(%d, %d)", conjuntoA[i], conjuntoB[j]);
+            fprintf(arq, "(%d, %d)", conjuntoA[i], conjuntoB[j]);
+        }
+    }
+    printf("}");
+    fprintf(arq, "}");
+
+    printf("\nProduto Cartesiano armazenado no arquivo.");
+}
+

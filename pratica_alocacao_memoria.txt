@@ -1,0 +1,222 @@
+// Exercício 1 
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int *alocar(int n);
+void preencher(int *array, int n);
+void imprimir(int *array, int n);
+
+int main()
+{
+    int *array, n;
+    
+    printf("Digite o tamanho do array: ");
+    scanf("%d", &n);
+    
+    array = alocar(n);
+    preencher(array, n);
+    imprimir(array, n);
+    
+    free(array);
+    
+    return 0;
+}
+
+int *alocar(int n) {
+    int *array = (int *)malloc(n * sizeof(int));
+    if (n == 0) {
+        printf("Falha na alocação de memória.\n");
+        return NULL;
+    }
+    return array;
+}
+
+void preencher(int *array, int n) {
+    int i;
+    for (i = 0; i < n; i++) {
+        array[i] = i* 10;
+    }
+}
+
+void imprimir(int *array, int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", array[i]);
+    }
+}
+
+// Exercício 2 NAO ESTA PRONTO - DEU ERRO TEM QUE AJUSTAR
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct pessoa{
+    char cpf[14];
+    char nome[60];
+    float salario;
+};
+
+struct pessoa *alocar(int n);
+void preencher(struct pessoa *pessoas, int n);
+void imprimir(struct pessoa *pessoas, int n);
+
+int main()
+{
+    int n;
+    struct pessoa *pessoas;
+
+    printf("Digite a quantidade de pessoas: ");
+    scanf("%d", &n);
+
+    pessoas = alocar(n);
+    preencher(pessoas, n);
+    imprimir(pessoas, n);
+
+    free(pessoas);
+
+    return 0;
+}
+
+struct pessoa *alocar(int n) {
+    struct pessoa *array = (struct pessoa *)calloc(n, sizeof(struct pessoa));
+    if (n == 0) {
+        printf("Falha na alocação de memória.\n");
+        return NULL;
+    }
+    return array;
+}
+
+void preencher(struct pessoa *pessoas, int n) {
+    int i;
+
+    for (i = 0; i < n; i++) {
+        printf("Digite seu CPF: ");
+        scanf("%s", pessoas[i].cpf);
+
+        printf("Digite seu nome: ");
+        scanf("%s[^\n]", pessoas[i].nome);
+
+        printf("Digite seu salario: ");
+        scanf("%f", &pessoas[i].salario);
+
+    }
+}
+
+void imprimir(struct pessoa *pessoas, int n) {
+    for (int i = 0; i < n; i++) {
+        printf("CPF: %s, nome: %s, salário: %.2f \n", pessoas[i].cpf, pessoas[i].nome, pessoas[i].salario);
+    }
+}
+
+// Exercício 3
+#include <stdio.h>
+#include <stdlib.h>
+
+struct veiculo {
+    int chassi;
+    char marca[15];
+    char modelo[10];
+    float preco;
+};
+
+struct veiculo *alocarMemoria(int n);
+void preencherVeiculos(struct veiculo *veiculos, int n);
+struct veiculo *realocarMemoria( struct veiculo *veiculos,int n);
+void preencherNovosVeiculos(struct veiculo *veiculos, int n, int n2);
+void imprimirVeiculos(struct veiculo *veiculos, int n);
+
+
+int main() {
+    int n;
+    int n2;
+    struct veiculo *veiculos;
+
+    printf("Informe a quantidade de veículos que você quer cadastrar: ");
+    scanf("%d", &n);
+
+    veiculos = alocarMemoria(n);
+    printf("\n");
+    preencherVeiculos(veiculos, n);
+
+    printf("Lista de veículos: \n");
+    imprimirVeiculos(veiculos, n);
+
+    printf("\nInforme a quantidade de veículos que você quer cadastrar: \n");
+    scanf("%d", &n2);
+
+    int veiculosTamanho = n + n2;
+
+    veiculos = realocarMemoria(veiculos, veiculosTamanho);
+    preencherNovosVeiculos(veiculos, n, veiculosTamanho);
+
+    printf("Lista de veículos atualizada: \n");
+    imprimirVeiculos(veiculos, veiculosTamanho);
+
+    free(veiculos);
+
+    return 0;
+}
+
+struct veiculo *alocarMemoria(int n) {
+    struct veiculo *array = (struct veiculo *)malloc(n * sizeof(struct veiculo));
+    if (array == NULL) {
+        printf("Falha na alocação de memória");
+        return NULL;
+    }
+
+    return array;
+}
+
+void preencherVeiculos(struct veiculo *veiculos, int n) {
+    for (int i = 0; i < n; i++) {
+        printf("Digite o número do chassi: ");
+        scanf("%d", &veiculos[i].chassi);
+
+        printf("Digite a marca: ");
+        scanf("%s", veiculos[i].marca);
+
+        printf("Digite o modelo: ");
+        scanf("%s[^\n]", veiculos[i].modelo);
+
+        printf("Digite o preço: ");
+        scanf("%f", &veiculos[i].preco);
+        printf("\n");
+    }
+}
+
+struct veiculo *realocarMemoria( struct veiculo *veiculos,int n) {
+    veiculos = (struct veiculo *)realloc(veiculos, n * sizeof(struct veiculo));
+    if (veiculos == NULL) {
+        printf("Falha na alocação de memória");
+        return NULL;
+    }
+
+    return veiculos;
+}
+
+void preencherNovosVeiculos(struct veiculo *veiculos, int n, int n2) {
+    for (int i = n; i < n2; i++) {
+        printf("Digite o número do chassi: ");
+        scanf("%d", &veiculos[i].chassi);
+
+        printf("Digite a marca: ");
+        scanf("%s", veiculos[i].marca);
+
+        printf("Digite o modelo: ");
+        scanf("%s[^\n]", veiculos[i].modelo);
+
+        printf("Digite o preço: ");
+        scanf("%f", &veiculos[i].preco);
+        printf("\n");
+    }
+}
+
+void imprimirVeiculos(struct veiculo *veiculos, int n) {
+    for (int i = 0; i < n; i++) {
+        printf("Número do chassi: %d, marca: %s, modelo: %s, preço: %.2f\n", veiculos[i].chassi, veiculos[i].marca, veiculos[i].modelo, veiculos[i].preco);
+    }
+}
+
+
+
+

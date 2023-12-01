@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+int main() {
+    char caractere;
+    int estadoAtual = 0;
+    int invalido = 0;
+
+
+        printf ("\nInforme os dados:");
+        while ((caractere = getchar()) != '\n') {
+            switch (estadoAtual) {
+                case 0:
+                    if (caractere == 'a') {
+                        estadoAtual = 1;
+                    } else if (caractere == 'b') {
+                        estadoAtual = 2;
+                    } else {
+                        printf("Caractere inválido.\n");
+                        invalido = 1;
+                    } break;
+
+                case 2:
+                    if (caractere == 'a') {
+                        estadoAtual = 3;
+                    } else if (caractere == 'b') {
+                        estadoAtual = 4;
+                    } else {
+                        printf("Caractere inválido.\n");
+                        invalido = 1;
+                    } break;
+
+                case 4:
+                    if (caractere == 'a') {
+                        estadoAtual = 5;
+                    } else {
+                        printf("Caractere inválido.\n");
+                        invalido = 1;
+                    } break;
+                }
+            }
+    if (invalido == 0 && (estadoAtual == 1 || estadoAtual == 3 || estadoAtual == 5)) {
+        printf("Foi lida uma expressão válida");
+    } else {
+        printf("Não foi lida uma expressão válida");
+    }
+
+    return 0;
+}

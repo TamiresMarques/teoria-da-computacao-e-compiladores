@@ -33,19 +33,19 @@ int main()
         scanf("%d", &seq2[i]);
     }
 
-	armazenarSequencia(tamanho1,tamanho2,seq1,seq2);
+armazenarSequencia(tamanho1,tamanho2,seq1,seq2);
 
-	printf("\n\n");
-	printf("Seqûencias do arquivo. \n");
-	leSequencia(tamanho1,tamanho2);
+printf("\n\n");
+printf("Seqûencias do arquivo. \n");
+leSequencia(tamanho1,tamanho2);
 
-	int repetidos1 = quantidadeRepetidos(seq1, tamanho1);
-	int repetidos2 = quantidadeRepetidos(seq2, tamanho2);
+int repetidos1 = quantidadeRepetidos(seq1, tamanho1);
+int repetidos2 = quantidadeRepetidos(seq2, tamanho2);
 
-	int tamanhoA = tamanho1 - repetidos1;
-	int tamanhoB = tamanho2 - repetidos2;
+int tamanhoA = tamanho1 - repetidos1;
+int tamanhoB = tamanho2 - repetidos2;
 
-	printf("\nConjunto A: ");
+printf("\nConjunto A: ");
     int *conjuntoA = criaConjunto(tamanho1, tamanhoA, seq1);
     printf("\n");
     printf("Conjunto B: ");
@@ -96,7 +96,7 @@ void armazenarSequencia(int tamanho1, int tamanho2, int* seq1, int* seq2) {
         fprintf(arq, "%d ", seq1[i]);
 
     }
-	printf("\n");
+printf("\n");
 
     printf("Segunda Sequência: ");
     fprintf(arq, "\n");
@@ -104,7 +104,7 @@ void armazenarSequencia(int tamanho1, int tamanho2, int* seq1, int* seq2) {
         printf("%d ", seq2[i]);
         fprintf(arq, "%d ", seq2[i]);
     }
-	printf("\n");
+printf("\n");
 
     fclose(arq);
     printf("Sequências armazenadas no arquivo.");
@@ -130,16 +130,16 @@ void leSequencia(int tamanho1, int tamanho2) {
     for (int i = 0; i < tamanho1; i++) {
         printf("%d ", sequencia1[i]);
     }
-	printf("\n");
+printf("\n");
 
-	int *sequencia2 = (int *)malloc(tamanho2 * sizeof(int));
+int *sequencia2 = (int *)malloc(tamanho2 * sizeof(int));
 
     printf("Segunda Sequência lida: ");
     for (int i = 0; i < tamanho2; i++) {
         fscanf(arq, "%d", &sequencia2[i]);
         printf("%d ", sequencia2[i]);
     }
-	printf("\n");
+printf("\n");
 
     fclose(arq);
 }
@@ -193,6 +193,7 @@ int *criaConjunto (int tamanho, int tamanhoConjunto,int *sequencia) {
     }
 
     fprintf(arq, "\n");
+    fprintf(arq, "Conjunto: ");
     for (int i = 0; i < tamanhoConjunto; i++) {
         fprintf(arq, "%d ", conjunto[i]);
     }
@@ -244,7 +245,6 @@ int *uniaoConjuntos(int tamanho1, int *conjuntoA, int tamanho2, int *conjuntoB) 
     int repetidos = quantidadeRepetidos(uniao, tamanho);
     int tamanhoUniao = tamanho - repetidos;
 
-    printf("\n");
     criaConjunto(tamanho, tamanhoUniao, uniao);
     return uniao;
 }
@@ -286,13 +286,14 @@ int *intersecaoConjuntos( int *uniao, int tamanho1, int *conjuntoA, int tamanho2
         printf("%d ", conjuntoIntersecao[i]);
     }
 
-    if ((arq = fopen("sequenciaC.txt", "wt")) == NULL) {
+    if ((arq = fopen("sequenciaC.txt", "a")) == NULL) {
         printf("Erro ao abrir o arquivo");
         system("pause");
         exit(1);
     }
 
     fprintf(arq, "\n");
+    fprintf(arq, "Interseção: ");
     for (int i = 0; i < repetidos; i++) {
         fprintf(arq, "%d ", conjuntoIntersecao[i]);
     }
@@ -325,12 +326,14 @@ void diferencaConjuntos(int tamanhoConjunto, int *conjunto, int tamanhoInterseca
             }
         }
 
-        if ((arq = fopen("sequenciaC.txt", "wt")) == NULL) {
+        if ((arq = fopen("sequenciaC.txt", "a")) == NULL) {
             printf("Erro ao abrir o arquivo");
             system("pause");
             exit(1);
         }
 
+        fprintf(arq,"\n");
+        fprintf(arq,"Diferença: ");
         for (int i = 0; i < tamanho; i++) {
             printf("%d ", conjuntoDiferenca[i]);
             fprintf(arq, "%d ", conjuntoDiferenca[i]);
@@ -345,13 +348,15 @@ void diferencaConjuntos(int tamanhoConjunto, int *conjunto, int tamanhoInterseca
 
 void produtoCartesiano(int tamanho1, int *conjuntoA, int tamanho2, int *conjuntoB) {
     FILE *arq;
-    if ((arq = fopen("sequenciaC.txt", "w")) == NULL) {
+    if ((arq = fopen("sequenciaC.txt", "a")) == NULL) {
         printf("Erro ao abrir o arquivo");
         system("pause");
         exit(1);
     }
 
+
     printf("{");
+    fprintf(arq, "\nProduto Cartesiano: ");
     fprintf(arq, "\n{");
     for (int i = 0; i < tamanho1; i++) {
         for (int j = 0; j < tamanho2; j++) {
@@ -364,4 +369,3 @@ void produtoCartesiano(int tamanho1, int *conjuntoA, int tamanho2, int *conjunto
 
     printf("\nProduto Cartesiano armazenado no arquivo.");
 }
-
